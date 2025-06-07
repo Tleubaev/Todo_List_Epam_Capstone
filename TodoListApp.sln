@@ -28,9 +28,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoListApp.Services", "TodoListApp.Services\TodoListApp.Services.csproj", "{6B47D69D-9F12-4CE3-8825-50DD8E18A48A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoListApp.Services.WebApi", "TodoListApp.Services.WebApi\TodoListApp.Services.WebApi.csproj", "{29B203E6-3570-43B8-9541-8EAF68E1A141}"
-	ProjectSection(ProjectDependencies) = postProject
-		{6B47D69D-9F12-4CE3-8825-50DD8E18A48A} = {6B47D69D-9F12-4CE3-8825-50DD8E18A48A}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoListApp.Services.Database", "TodoListApp.Services.Database\TodoListApp.Services.Database.csproj", "{496D2147-9272-4C38-9180-14AAD9E1B35B}"
 	ProjectSection(ProjectDependencies) = postProject
