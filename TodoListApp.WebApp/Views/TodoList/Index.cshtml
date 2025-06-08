@@ -1,0 +1,24 @@
+@model IEnumerable<TodoListApp.WebApi.Models.ToDoList>
+
+<h2>Мои списки задач</h2>
+<a href="@Url.Action("Create")" class="btn btn-primary">Создать новый список</a>
+<table class="table">
+    <tr>
+        <th>Название</th>
+        <th>Описание</th>
+        <th>Действия</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Title</td>
+            <td>@item.Description</td>
+            <td>
+                <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-info btn-sm">Детали</a>
+                <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-warning btn-sm">Редактировать</a>
+                <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger btn-sm">Удалить</a>
+                <a href="@Url.Action("Index", "TaskItem", new { toDoListId = item.Id })" class="btn btn-success btn-sm">Задачи</a>
+            </td>
+        </tr>
+    }
+</table>

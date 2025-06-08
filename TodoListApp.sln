@@ -15,21 +15,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{289460C3-6B65-43A6-A945-12F1A12B63F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoListApp.WebApp", "TodoListApp.WebApp\TodoListApp.WebApp.csproj", "{9FDDBF17-448E-43A5-8CF1-7A5C99CFBF56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoListApp.WebApp", "TodoListApp.WebApp\TodoListApp.WebApp.csproj", "{9FDDBF17-448E-43A5-8CF1-7A5C99CFBF56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoListApp.WebApi", "TodoListApp.WebApi\TodoListApp.WebApi.csproj", "{585042AB-F275-4265-AF4D-CA908B0A7AE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoListApp.WebApi", "TodoListApp.WebApi\TodoListApp.WebApi.csproj", "{585042AB-F275-4265-AF4D-CA908B0A7AE0}"
 	ProjectSection(ProjectDependencies) = postProject
 		{496D2147-9272-4C38-9180-14AAD9E1B35B} = {496D2147-9272-4C38-9180-14AAD9E1B35B}
 		{6B47D69D-9F12-4CE3-8825-50DD8E18A48A} = {6B47D69D-9F12-4CE3-8825-50DD8E18A48A}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoListApp.WebApi.Models", "TodoListApp.WebApi.Models\TodoListApp.WebApi.Models.csproj", "{A94B86C5-76D4-40A5-9A63-6B1D356EE07D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoListApp.WebApi.Models", "TodoListApp.WebApi.Models\TodoListApp.WebApi.Models.csproj", "{A94B86C5-76D4-40A5-9A63-6B1D356EE07D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoListApp.Services", "TodoListApp.Services\TodoListApp.Services.csproj", "{6B47D69D-9F12-4CE3-8825-50DD8E18A48A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoListApp.Services", "TodoListApp.Services\TodoListApp.Services.csproj", "{6B47D69D-9F12-4CE3-8825-50DD8E18A48A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoListApp.Services.WebApi", "TodoListApp.Services.WebApi\TodoListApp.Services.WebApi.csproj", "{29B203E6-3570-43B8-9541-8EAF68E1A141}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoListApp.Services.WebApi", "TodoListApp.Services.WebApi\TodoListApp.Services.WebApi.csproj", "{29B203E6-3570-43B8-9541-8EAF68E1A141}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoListApp.Services.Database", "TodoListApp.Services.Database\TodoListApp.Services.Database.csproj", "{496D2147-9272-4C38-9180-14AAD9E1B35B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoListApp.Services.Database", "TodoListApp.Services.Database\TodoListApp.Services.Database.csproj", "{496D2147-9272-4C38-9180-14AAD9E1B35B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6B47D69D-9F12-4CE3-8825-50DD8E18A48A} = {6B47D69D-9F12-4CE3-8825-50DD8E18A48A}
 	EndProjectSection

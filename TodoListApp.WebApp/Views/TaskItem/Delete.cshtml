@@ -1,0 +1,21 @@
+@model TodoListApp.WebApi.Models.TaskItem
+@{
+    var toDoListId = ViewBag.ToDoListId;
+}
+
+<h2>Удалить задачу</h2>
+<h4>Вы уверены, что хотите удалить эту задачу?</h4>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Название</dt>
+        <dd class="col-sm-10">@Model.Title</dd>
+        <dt class="col-sm-2">Описание</dt>
+        <dd class="col-sm-10">@Model.Description</dd>
+    </dl>
+    <form asp-action="DeleteConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" name="toDoListId" value="@toDoListId" />
+        <button type="submit" class="btn btn-danger">Удалить</button>
+        <a asp-action="Index" asp-route-toDoListId="@toDoListId" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
