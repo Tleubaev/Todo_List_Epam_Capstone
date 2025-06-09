@@ -5,33 +5,33 @@ using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.Services.WebApi
 {
-    public class ToDoListWebApiService : IToDoListService
+    public class TodoListWebApiService : ITodoListService
     {
         private readonly HttpClient _httpClient;
 
-        public ToDoListWebApiService(HttpClient httpClient)
+        public TodoListWebApiService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<ToDoList?> GetByIdAsync(Guid id) =>
-            await _httpClient.GetFromJsonAsync<ToDoList>($"api/todolists/{id}");
+        public async Task<TodoList?> GetByIdAsync(Guid id) =>
+            await _httpClient.GetFromJsonAsync<TodoList>($"api/todolists/{id}");
 
-        public async Task<IEnumerable<ToDoList>> GetByUserIdAsync(Guid userId) =>
-            await _httpClient.GetFromJsonAsync<IEnumerable<ToDoList>>($"api/todolists/user/{userId}");
+        public async Task<IEnumerable<TodoList>> GetByUserIdAsync(Guid userId) =>
+            await _httpClient.GetFromJsonAsync<IEnumerable<TodoList>>($"api/todolists/user/{userId}");
 
-        public async Task<ToDoList> CreateAsync(ToDoList list)
+        public async Task<TodoList> CreateAsync(TodoList list)
         {
             var response = await _httpClient.PostAsJsonAsync("api/todolists", list);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<ToDoList>();
+            return await response.Content.ReadFromJsonAsync<TodoList>();
         }
 
-        public async Task<ToDoList> UpdateAsync(ToDoList list)
+        public async Task<TodoList> UpdateAsync(TodoList list)
         {
             var response = await _httpClient.PutAsJsonAsync($"api/todolists/{list.Id}", list);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<ToDoList>();
+            return await response.Content.ReadFromJsonAsync<TodoList>();
         }
 
         public async Task DeleteAsync(Guid id)

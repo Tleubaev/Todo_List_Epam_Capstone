@@ -13,14 +13,14 @@ builder.Services.AddAuthentication("Cookies")
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddHttpClient<IToDoListService, ToDoListWebApiService>(client =>
+builder.Services.AddHttpClient<ITodoListService, TodoListWebApiService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7181/");
+    client.BaseAddress = new Uri("https://localhost:7244/");
 });
 
 builder.Services.AddHttpClient<ITaskItemService, TaskItemWebApiService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7181/");
+    client.BaseAddress = new Uri("https://localhost:7244/");
 });
 
 var app = builder.Build();

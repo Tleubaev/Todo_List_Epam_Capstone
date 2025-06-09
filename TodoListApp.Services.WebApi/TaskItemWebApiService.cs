@@ -17,8 +17,8 @@ namespace TodoListApp.Services.WebApi
         public async Task<TaskItem?> GetByIdAsync(Guid id) =>
             await _httpClient.GetFromJsonAsync<TaskItem>($"api/tasks/{id}");
 
-        public async Task<IEnumerable<TaskItem>> GetByToDoListIdAsync(Guid toDoListId) =>
-            await _httpClient.GetFromJsonAsync<IEnumerable<TaskItem>>($"api/tasks/todolist/{toDoListId}");
+        public async Task<IEnumerable<TaskItem>> GetByTodoListIdAsync(Guid todoListId) =>
+            await _httpClient.GetFromJsonAsync<IEnumerable<TaskItem>>($"api/tasks/todolist/{todoListId}");
 
         public async Task<TaskItem> CreateAsync(TaskItem task)
         {

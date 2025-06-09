@@ -15,7 +15,7 @@ namespace TodoListApp.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string userName, string password, string returnUrl = "/")
+        public async Task<IActionResult> Login(string userName, string returnUrl = "/")
         {
             // Здесь должна быть ваша проверка пользователя через БД или API.
             // Для теста авторизуем любого пользователя:

@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace TodoListApp.WebApi.Models
 {
@@ -17,15 +16,15 @@ namespace TodoListApp.WebApi.Models
         public string? Description { get; set; }
 
         [Required]
-        public Guid ToDoListId { get; set; }
+        public Guid TodoListId { get; set; }
 
         public bool IsCompleted { get; set; }
 
         public DateTime? DueDate { get; set; }
 
         // Навигационные свойства
-        public ToDoList ToDoList { get; set; } = default!;
-        public ICollection<Tag> Tags { get; set; } = new List<Tag>();
-        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public TodoList? TodoList { get; set; }
+        public ICollection<Tag>? Tags { get; set; } = new List<Tag>();
+        public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
     }
 }

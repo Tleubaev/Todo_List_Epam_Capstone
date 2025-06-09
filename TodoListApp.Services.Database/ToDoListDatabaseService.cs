@@ -1,44 +1,47 @@
 using Microsoft.EntityFrameworkCore;
-using TodoListApp.Services;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.Services.Database
 {
-    public class ToDoListDatabaseService : IToDoListService
+    public class TodoListDatabaseService : ITodoListService
     {
         private readonly TodoDbContext _context;
 
-        public ToDoListDatabaseService(TodoDbContext context)
+        public TodoListDatabaseService(TodoDbContext context)
         {
             _context = context;
         }
 
-        public async Task<ToDoList?> GetByIdAsync(Guid id) =>
-            await _context.ToDoLists.Include(l => l.Tasks).FirstOrDefaultAsync(l => l.Id == id);
-
-        public async Task<IEnumerable<ToDoList>> GetByUserIdAsync(Guid userId) =>
-            await _context.ToDoLists.Where(l => l.UserId == userId).ToListAsync();
-
-        public async Task<ToDoList> CreateAsync(ToDoList list)
+        public async Task<TodoList?> GetByIdAsync(Guid id)
         {
-            _context.ToDoLists.Add(list);
+            return await _context.TodoLists.Include(l => l.Tasks).FirstOrDefaultAsync(l => l.Id == id);
+        }
+
+        public async Task<IEnumerable<TodoList>> GetByUserIdAsync(Guid userId)
+        {
+            return await _context.TodoLists.Where(l => l.UserId == userId).ToListAsync();
+        }
+
+        public async Task<TodoList> CreateAsync(TodoList list)
+        {
+            _context.TodoLists.Add(list);
             await _context.SaveChangesAsync();
             return list;
         }
 
-        public async Task<ToDoList> UpdateAsync(ToDoList list)
+        public async Task<TodoList> UpdateAsync(TodoList list)
         {
-            _context.ToDoLists.Update(list);
+            _context.TodoLists.Update(list);
             await _context.SaveChangesAsync();
             return list;
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            var list = await _context.ToDoLists.FindAsync(id);
+            var list = await _context.TodoLists.FindAsync(id);
             if (list != null)
             {
-                _context.ToDoLists.Remove(list);
+                _context.TodoLists.Remove(list);
                 await _context.SaveChangesAsync();
             }
         }

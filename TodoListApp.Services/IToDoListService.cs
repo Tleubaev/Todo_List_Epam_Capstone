@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.Services;
-public interface IToDoListService
+public interface ITodoListService
 {
-    Task<ToDoList?> GetByIdAsync(Guid id);
-    Task<IEnumerable<ToDoList>> GetByUserIdAsync(Guid userId);
-    Task<ToDoList> CreateAsync(ToDoList list);
-    Task<ToDoList> UpdateAsync(ToDoList list);
+    Task<TodoList?> GetByIdAsync(Guid id);
+    Task<IEnumerable<TodoList>> GetByUserIdAsync(Guid userId);
+    Task<TodoList> CreateAsync(TodoList list);
+    Task<TodoList> UpdateAsync(TodoList list);
     Task DeleteAsync(Guid id);
 }

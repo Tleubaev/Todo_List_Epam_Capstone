@@ -19,9 +19,9 @@ namespace TodoListApp.Services.Database
                 .Include(t => t.Comments)
                 .FirstOrDefaultAsync(t => t.Id == id);
 
-        public async Task<IEnumerable<TaskItem>> GetByToDoListIdAsync(Guid toDoListId) =>
+        public async Task<IEnumerable<TaskItem>> GetByTodoListIdAsync(Guid todoListId) =>
             await _context.TaskItems
-                .Where(t => t.ToDoListId == toDoListId)
+                .Where(t => t.TodoListId == todoListId)
                 .Include(t => t.Tags)
                 .Include(t => t.Comments)
                 .ToListAsync();

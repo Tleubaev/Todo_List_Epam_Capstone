@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 namespace TodoListApp.WebApi.Models
 {
     /// <summary>
-    /// Модель пользователя для ToDo приложения.
+    /// Модель пользователя для Todo приложения.
     /// </summary>
     public class User
     {
@@ -21,6 +21,6 @@ namespace TodoListApp.WebApi.Models
         public string PasswordHash { get; set; } = default!;
 
         // Навигационные свойства
-        public ICollection<ToDoList> ToDoLists { get; set; } = new List<ToDoList>();
+        public ICollection<TodoList> TodoLists { get; set; } = new List<TodoList>();
     }
 }

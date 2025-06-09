@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.Services
-{    public interface IUserService
+{
+    public interface IUserService
     {
         Task<User?> GetByIdAsync(Guid id);
         Task<User?> GetByUserNameAsync(string userName);

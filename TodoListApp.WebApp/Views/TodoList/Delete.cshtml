@@ -1,4 +1,4 @@
-@model TodoListApp.WebApi.Models.ToDoList
+@model TodoListApp.WebApi.Models.TodoList
 
 <h2>Удалить список задач</h2>
 <h4>Вы уверены, что хотите удалить этот список?</h4>
@@ -9,7 +9,7 @@
         <dt class="col-sm-2">Описание</dt>
         <dd class="col-sm-10">@Model.Description</dd>
     </dl>
-    <form asp-action="DeleteConfirmed" method="post">
+    <form asp-action="Delete" method="post">
         <input type="hidden" asp-for="Id" />
         <button type="submit" class="btn btn-danger">Удалить</button>
         <a asp-action="Index" class="btn btn-secondary">Отмена</a>

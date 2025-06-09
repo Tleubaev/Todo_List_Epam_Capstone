@@ -14,7 +14,7 @@ namespace TodoListApp.Services.Database
         }
 
         public async Task<User?> GetByIdAsync(Guid id) =>
-            await _context.Users.Include(u => u.ToDoLists).FirstOrDefaultAsync(u => u.Id == id);
+            await _context.Users.Include(u => u.TodoLists).FirstOrDefaultAsync(u => u.Id == id);
 
         public async Task<User?> GetByUserNameAsync(string userName) =>
             await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);

@@ -6,32 +6,32 @@ using TodoListApp.WebApi.Models;
 namespace TodoListApp.WebApp.Controllers
 {
     [Authorize]
-    public class ToDoListController : Controller
+    public class TodoListController : Controller
     {
-        private readonly IToDoListService _toDoListService;
+        private readonly ITodoListService _todoListService;
         private readonly Guid _currentUserId;
 
-        public ToDoListController(IToDoListService toDoListService, IHttpContextAccessor accessor)
+        public TodoListController(ITodoListService todoListService, IHttpContextAccessor accessor)
         {
-            _toDoListService = toDoListService;
+            _todoListService = todoListService;
             _currentUserId = Guid.Parse(accessor.HttpContext!.User.FindFirst("sub")!.Value);
         }
 
         public async Task<IActionResult> Index()
         {
-            var lists = await _toDoListService.GetByUserIdAsync(_currentUserId);
+            var lists = await _todoListService.GetByUserIdAsync(_currentUserId);
             return View(lists);
         }
 
         public IActionResult Create() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Create(ToDoList model)
+        public async Task<IActionResult> Create(TodoList model)
         {
             if (ModelState.IsValid)
             {
                 model.UserId = _currentUserId;
-                await _toDoListService.CreateAsync(model);
+                await _todoListService.CreateAsync(model);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -39,7 +39,7 @@ namespace TodoListApp.WebApp.Controllers
 
         public async Task<IActionResult> Details(Guid id)
         {
-            var list = await _toDoListService.GetByIdAsync(id);
+            var list = await _todoListService.GetByIdAsync(id);
             if (list == null || list.UserId != _currentUserId)
             {
                 return NotFound();
@@ -49,7 +49,7 @@ namespace TodoListApp.WebApp.Controllers
 
         public async Task<IActionResult> Edit(Guid id)
         {
-            var list = await _toDoListService.GetByIdAsync(id);
+            var list = await _todoListService.GetByIdAsync(id);
             if (list == null || list.UserId != _currentUserId)
             {
                 return NotFound();
@@ -58,11 +58,11 @@ namespace TodoListApp.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(ToDoList model)
+        public async Task<IActionResult> Edit(TodoList model)
         {
             if (ModelState.IsValid && model.UserId == _currentUserId)
             {
-                await _toDoListService.UpdateAsync(model);
+                await _todoListService.UpdateAsync(model);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -70,7 +70,7 @@ namespace TodoListApp.WebApp.Controllers
 
         public async Task<IActionResult> Delete(Guid id)
         {
-            var list = await _toDoListService.GetByIdAsync(id);
+            var list = await _todoListService.GetByIdAsync(id);
             if (list == null || list.UserId != _currentUserId)
             {
                 return NotFound();
@@ -81,7 +81,7 @@ namespace TodoListApp.WebApp.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _toDoListService.DeleteAsync(id);
+            await _todoListService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }

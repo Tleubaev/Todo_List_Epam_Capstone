@@ -1,4 +1,4 @@
-@model TodoListApp.WebApi.Models.ToDoList
+@model TodoListApp.WebApi.Models.TodoList
 
 <h2>Детали списка задач</h2>
 <div>
@@ -11,5 +11,5 @@
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Редактировать</a>
     <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Удалить</a>
     <a asp-action="Index" class="btn btn-secondary">Назад</a>
-    <a asp-controller="TaskItem" asp-action="Index" asp-route-toDoListId="@Model.Id" class="btn btn-success">Задачи</a>
+    <a asp-controller="TaskItem" asp-action="Index" asp-route-todoListId="@Model.Id" class="btn btn-success">Задачи</a>
 </div>

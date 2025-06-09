@@ -1,6 +1,6 @@
 @model TodoListApp.WebApi.Models.TaskItem
 @{
-    var toDoListId = ViewBag.ToDoListId;
+    var todoListId = ViewBag.TodoListId;
 }
 
 <h2>Детали задачи</h2>
@@ -15,7 +15,7 @@
         <dt class="col-sm-2">Статус</dt>
         <dd class="col-sm-10">@(Model.IsCompleted ? "Выполнено" : "В работе")</dd>
     </dl>
-    <a asp-action="Edit" asp-route-id="@Model.Id" asp-route-toDoListId="@toDoListId" class="btn btn-warning">Редактировать</a>
-    <a asp-action="Delete" asp-route-id="@Model.Id" asp-route-toDoListId="@toDoListId" class="btn btn-danger">Удалить</a>
-    <a asp-action="Index" asp-route-toDoListId="@toDoListId" class="btn btn-secondary">К списку задач</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" asp-route-todoListId="@todoListId" class="btn btn-warning">Редактировать</a>
+    <a asp-action="Delete" asp-route-id="@Model.Id" asp-route-todoListId="@todoListId" class="btn btn-danger">Удалить</a>
+    <a asp-action="Index" asp-route-todoListId="@todoListId" class="btn btn-secondary">К списку задач</a>
 </div>

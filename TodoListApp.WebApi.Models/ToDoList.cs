@@ -5,7 +5,7 @@ namespace TodoListApp.WebApi.Models
     /// <summary>
     /// Модель списка задач.
     /// </summary>
-    public class ToDoList
+    public class TodoList
     {
         public Guid Id { get; set; }
 
@@ -15,11 +15,11 @@ namespace TodoListApp.WebApi.Models
 
         public string? Description { get; set; }
 
-        [Required]
+        //[Required]
         public Guid UserId { get; set; }
 
         // Навигационные свойства
-        public User User { get; set; } = default!;
+        public User? User { get; set; }
         public ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>();
     }
 }
