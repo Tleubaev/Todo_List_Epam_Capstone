@@ -1,6 +1,7 @@
 @model IEnumerable<TodoListApp.WebApi.Models.TaskItem>
 @{
     var todoListId = ViewBag.TodoListId;
+    var now = ViewBag.Now ?? DateTime.UtcNow;
 }
 
 <h2>Задачи списка</h2>
@@ -13,10 +14,28 @@
     </tr>
     @foreach (var item in Model)
     {
-        <tr>
+        bool isOverdue = item.DueDate.HasValue && item.DueDate.Value < now && !item.IsCompleted;
+        <tr class="@(isOverdue ? "table-danger" : "")">
             <td>@item.Title</td>
             <td>
-                @(item.IsCompleted ? "Выполнено" : "В работе")
+                @if (item.DueDate.HasValue)
+                {
+                    @item.DueDate.Value.ToString("yyyy-MM-dd")
+                    if (isOverdue)
+                    {
+                        <span class="badge bg-danger ms-2">Просрочено!</span>
+                    }
+                }
+            </td>
+            <td>
+                @if (item.IsCompleted)
+                {
+                    <span class="badge bg-success">Выполнено</span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary">Открыто</span>
+                }
             </td>
             <td>
                 <a href="@Url.Action("Details", new { id = item.Id, todoListId })" class="btn btn-info btn-sm">Детали</a>

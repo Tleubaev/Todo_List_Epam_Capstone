@@ -1,0 +1,52 @@
+@model IEnumerable<TodoListApp.WebApi.Models.TaskItem>
+@{
+    ViewData["Title"] = "Назначенные мне задачи";
+    var filter = ViewBag.Filter as bool?;
+    var sortBy = ViewBag.SortBy as string;
+    var ascending = ViewBag.Ascending as bool? ?? true;
+}
+
+<h2>Назначенные мне задачи</h2>
+<form method="get" class="mb-3">
+    <select name="isCompleted" class="form-select" style="width: auto; display: inline;">
+        <option value="">Все</option>
+        <option value="false" @(filter == false ? "selected" : "")>Активные</option>
+        <option value="true" @(filter == true ? "selected" : "")>Выполненные</option>
+    </select>
+    <select name="sortBy" class="form-select" style="width: auto; display: inline;">
+        <option value="">Без сортировки</option>
+        <option value="Title" @(sortBy == "Title" ? "selected" : "")>Название</option>
+        <option value="DueDate" @(sortBy == "DueDate" ? "selected" : "")>Срок</option>
+    </select>
+    <select name="ascending" class="form-select" style="width: auto; display: inline;">
+        <option value="true" @(ascending ? "selected" : "")>По возрастанию</option>
+        <option value="false" @(!ascending ? "selected" : "")>По убыванию</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Фильтр/Сортировка</button>
+</form>
+<table class="table">
+    <tr>
+        <th>Название</th>
+        <th>Статус</th>
+        <th>Срок</th>
+        <th>Действия</th>
+    </tr>
+    @foreach (var task in Model)
+    {
+        var overdue = task.DueDate.HasValue && !task.IsCompleted && task.DueDate.Value < DateTime.UtcNow;
+        <tr style="@(overdue ? "background-color: #f8d7da;" : "")">
+            <td>@task.Title</td>
+            <td>
+                <form asp-action="ChangeStatus" method="post" style="display:inline;">
+                    <input type="hidden" name="id" value="@task.Id" />
+                    <input type="hidden" name="isCompleted" value="@(!task.IsCompleted)" />
+                    <button type="submit" class="btn btn-link">@((task.IsCompleted) ? "Выполнено" : "В работе")</button>
+                </form>
+            </td>
+            <td>@task.DueDate?.ToShortDateString()</td>
+            <td>
+                <a asp-controller="TaskItem" asp-action="Details" asp-route-id="@task.Id" asp-route-todoListId="@task.TodoListId" class="btn btn-info btn-sm">Детали</a>
+            </td>
+        </tr>
+    }
+</table>

@@ -20,7 +20,10 @@ namespace TodoListApp.WebApi.Models
         [Required]
         public string PasswordHash { get; set; } = default!;
 
-        // Навигационные свойства
+        [Required]
+        [StringLength(20)]
+        public string Role { get; set; } = UserRoles.User;
+
         public ICollection<TodoList> TodoLists { get; set; } = new List<TodoList>();
     }
 }

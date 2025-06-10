@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - TodoListApp.WebApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TodoListApp.WebApp.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -20,13 +21,16 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-controller="TodoList" asp-action="Index">Список задач</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="TodoList" asp-action="Index">To-Do Lists</a>
+                            <a class="nav-link text-dark" asp-controller="AssignedTask" asp-action="Index">Мои задачи</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Search" asp-action="Index">Поиск</a>
                         </li>
                     </ul>
                 </div>
@@ -36,9 +40,6 @@
                         <span class="navbar-text">Привет, @User.Identity.Name!</span>
                         <button type="submit" class="btn btn-link">Выйти</button>
                     </form>
-           @*          <form asp-action="Logout" asp-controller="Account" method="post" style="display:inline;">
-                        <button type="submit">Logout</button>
-                    </form> *@
                 }
                 else
                 {

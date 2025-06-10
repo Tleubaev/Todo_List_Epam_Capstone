@@ -39,7 +39,6 @@ namespace TodoListApp.WebApp.Controllers
                 return RedirectToAction("Login");
             }
 
-            // Получить ошибку сервера и показать пользователю
             ModelState.AddModelError("", "Registration failed. Try another email or username.");
             return View(model);
         }
@@ -59,7 +58,6 @@ namespace TodoListApp.WebApp.Controllers
                 return View(model);
             }
 
-            // Пример: запрос в API для аутентификации
             var client = _httpClientFactory.CreateClient("WebApi");
             var response = await client.PostAsJsonAsync("api/users/login", new
             {
@@ -71,10 +69,11 @@ namespace TodoListApp.WebApp.Controllers
             {
                 var user = await response.Content.ReadFromJsonAsync<User>();
                 var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim("sub", user.Id.ToString())
-        };
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim("sub", user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role)
+                };
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var authProperties = new AuthenticationProperties { IsPersistent = true };
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);

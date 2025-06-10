@@ -9,16 +9,19 @@ namespace TodoListApp.WebApp.Controllers
     public class TaskItemController : Controller
     {
         private readonly ITaskItemService _taskItemService;
+        private readonly Guid _currentUserId;
 
-        public TaskItemController(ITaskItemService taskItemService)
+        public TaskItemController(ITaskItemService taskItemService, IHttpContextAccessor accessor)
         {
             _taskItemService = taskItemService;
+            _currentUserId = Guid.Parse(accessor.HttpContext!.User.FindFirst("sub")!.Value);
         }
 
         public async Task<IActionResult> Index(Guid todoListId)
         {
             var tasks = await _taskItemService.GetByTodoListIdAsync(todoListId);
             ViewBag.TodoListId = todoListId;
+            ViewBag.Now = DateTime.UtcNow;
             return View(tasks);
         }
 
@@ -34,6 +37,7 @@ namespace TodoListApp.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 model.TodoListId = todoListId;
+                model.AssignedUserId = _currentUserId;
                 await _taskItemService.CreateAsync(model);
                 return RedirectToAction("Index", new { todoListId });
             }

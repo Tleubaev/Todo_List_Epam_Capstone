@@ -49,5 +49,67 @@ namespace TodoListApp.Services.Database
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<IEnumerable<TaskItem>> GetAssignedToUserAsync(Guid userId, bool? isCompleted = null, string? sortBy = null, bool ascending = true)
+        {
+            var query = _context.TaskItems
+                .Include(t => t.Tags)
+                .Include(t => t.Comments)
+                .Where(t => t.AssignedUserId == userId);
+
+            if (isCompleted.HasValue)
+            {
+                query = query.Where(t => t.IsCompleted == isCompleted.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(sortBy))
+            {
+                if (sortBy == "Title")
+                {
+                    query = ascending ? query.OrderBy(t => t.Title) : query.OrderByDescending(t => t.Title);
+                }
+                else if (sortBy == "DueDate")
+                {
+                    query = ascending ? query.OrderBy(t => t.DueDate) : query.OrderByDescending(t => t.DueDate);
+                }
+            }
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<IEnumerable<TaskItem>> SearchAsync(string? title, DateTime? createdFrom, DateTime? createdTo, DateTime? dueFrom, DateTime? dueTo)
+        {
+            var query = _context.TaskItems
+                .Include(t => t.Tags)
+                .Include(t => t.Comments)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                query = query.Where(t => t.Title.Contains(title));
+            }
+
+            if (createdFrom.HasValue)
+            {
+                query = query.Where(t => t.CreatedAt >= createdFrom.Value);
+            }
+
+            if (createdTo.HasValue)
+            {
+                query = query.Where(t => t.CreatedAt <= createdTo.Value);
+            }
+
+            if (dueFrom.HasValue)
+            {
+                query = query.Where(t => t.DueDate != null && t.DueDate >= dueFrom.Value);
+            }
+
+            if (dueTo.HasValue)
+            {
+                query = query.Where(t => t.DueDate != null && t.DueDate <= dueTo.Value);
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }

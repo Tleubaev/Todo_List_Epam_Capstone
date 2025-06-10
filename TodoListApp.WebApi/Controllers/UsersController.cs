@@ -32,12 +32,14 @@ namespace TodoListApp.WebApi.Controllers
                 Id = Guid.NewGuid(),
                 UserName = dto.UserName,
                 Email = dto.Email,
-                PasswordHash = dto.Password // For demo! Use hashing in production!
+                PasswordHash = dto.Password,
+                Role = UserRoles.User
             };
 
             _db.Users.Add(user);
             await _db.SaveChangesAsync();
-            return Ok(new { user.Id, user.UserName, user.Email });
+
+            return Ok(new User { Id = user.Id, UserName = user.UserName, Role = user.Role });
         }
 
         // Login endpoint
@@ -52,11 +54,9 @@ namespace TodoListApp.WebApi.Controllers
                 return Unauthorized("Invalid username or password");
             }
 
-            // Для простоты вернем Id и UserName, можно добавить JWT
             return Ok(new User { Id = user.Id, UserName = user.UserName });
         }
 
-        // Forgot password endpoint (imitation)
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
         {
@@ -66,10 +66,8 @@ namespace TodoListApp.WebApi.Controllers
                 return NotFound("No user with that email found");
             }
 
-            // Здесь обычно генерируется токен и отправляется email
             _logger.LogInformation("Password reset requested for email {Email}", dto.Email);
 
-            // Имитация — просто вернем сообщение
             return Ok("Password reset instructions sent (imitation)");
         }
     }

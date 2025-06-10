@@ -83,5 +83,28 @@ namespace TodoListApp.WebApi.Controllers
             await _service.DeleteAsync(id);
             return NoContent();
         }
+
+        // GET: api/tasks/assigned/{userId}
+        [HttpGet("assigned/{userId}")]
+        public async Task<ActionResult<IEnumerable<TaskItem>>> GetAssignedToUser(
+            Guid userId, [FromQuery] bool? isCompleted = null, [FromQuery] string? sortBy = null, [FromQuery] bool ascending = true)
+        {
+            var tasks = await _service.GetAssignedToUserAsync(userId, isCompleted, sortBy, ascending);
+            return Ok(tasks);
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<TaskItem>>> Search
+        (
+            [FromQuery] string? title,
+            [FromQuery] DateTime? createdFrom,
+            [FromQuery] DateTime? createdTo,
+            [FromQuery] DateTime? dueFrom,
+            [FromQuery] DateTime? dueTo
+        )
+        {
+            var tasks = await _service.SearchAsync(title, createdFrom, createdTo, dueFrom, dueTo);
+            return Ok(tasks);
+        }
     }
 }

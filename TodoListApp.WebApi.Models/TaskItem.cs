@@ -19,12 +19,14 @@ namespace TodoListApp.WebApi.Models
         public Guid TodoListId { get; set; }
 
         public bool IsCompleted { get; set; }
-
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? DueDate { get; set; }
 
-        // Навигационные свойства
         public TodoList? TodoList { get; set; }
         public ICollection<Tag>? Tags { get; set; } = new List<Tag>();
         public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
+
+        public Guid AssignedUserId { get; set; }
+        public User? AssignedUser { get; set; }
     }
 }
