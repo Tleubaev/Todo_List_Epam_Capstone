@@ -39,6 +39,11 @@ namespace TodoListApp.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<TaskItem>> Create([FromBody] TaskItem model)
         {
+            if (model.DueDate.HasValue && model.DueDate.Value.Kind == DateTimeKind.Unspecified)
+            {
+                model.DueDate = DateTime.SpecifyKind(model.DueDate.Value, DateTimeKind.Utc);
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -52,6 +57,11 @@ namespace TodoListApp.WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] TaskItem model)
         {
+            if (model.DueDate.HasValue && model.DueDate.Value.Kind == DateTimeKind.Unspecified)
+            {
+                model.DueDate = DateTime.SpecifyKind(model.DueDate.Value, DateTimeKind.Utc);
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

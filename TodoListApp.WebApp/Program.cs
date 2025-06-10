@@ -13,6 +13,13 @@ builder.Services.AddAuthentication("Cookies")
 
 builder.Services.AddHttpContextAccessor();
 
+// Именованный клиент для вызова любых WebApi ручек
+builder.Services.AddHttpClient("WebApi", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7244/");
+});
+
+// Типизированные клиенты для сервисов (если используешь DI в других контроллерах)
 builder.Services.AddHttpClient<ITodoListService, TodoListWebApiService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7244/");
