@@ -44,5 +44,27 @@ namespace TodoListApp.Services.Database
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task AddTagAsync(Guid taskId, Guid tagId)
+        {
+            var task = await _context.TaskItems.Include(t => t.Tags).FirstOrDefaultAsync(t => t.Id == taskId);
+            var tag = await _context.Tags.FirstOrDefaultAsync(t => t.Id == tagId);
+            if (task != null && tag != null && !task.Tags.Contains(tag))
+            {
+                task.Tags.Add(tag);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task RemoveTagAsync(Guid taskId, Guid tagId)
+        {
+            var task = await _context.TaskItems.Include(t => t.Tags).FirstOrDefaultAsync(t => t.Id == taskId);
+            var tag = await _context.Tags.FirstOrDefaultAsync(t => t.Id == tagId);
+            if (task != null && tag != null && task.Tags.Contains(tag))
+            {
+                task.Tags.Remove(tag);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

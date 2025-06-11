@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.Services;
@@ -13,4 +8,7 @@ public interface ITagService
     Task<Tag> CreateAsync(Tag tag);
     Task<Tag> UpdateAsync(Tag tag);
     Task DeleteAsync(Guid id);
+
+    Task AddTagAsync(Guid taskId, Guid tagId);
+    Task RemoveTagAsync(Guid taskId, Guid tagId);
 }

@@ -106,5 +106,41 @@ namespace TodoListApp.WebApi.Controllers
             var tasks = await _service.SearchAsync(title, createdFrom, createdTo, dueFrom, dueTo);
             return Ok(tasks);
         }
+
+        [HttpPost("{taskId}/add-tag/{tagId}")]
+        public async Task<IActionResult> AddTag(Guid taskId, Guid tagId, [FromServices] ITaskItemService taskService, [FromServices] ITagService tagService)
+        {
+            var task = await taskService.GetByIdAsync(taskId);
+            var tag = await tagService.GetByIdAsync(tagId);
+            if (task == null || tag == null)
+            {
+                return NotFound();
+            }
+
+            if (!task.Tags.Any(t => t.Id == tagId))
+            {
+                task.Tags.Add(tag);
+                await taskService.UpdateAsync(task);
+            }
+            return Ok(task);
+        }
+
+        [HttpPost("{taskId}/remove-tag/{tagId}")]
+        public async Task<IActionResult> RemoveTag(Guid taskId, Guid tagId, [FromServices] ITaskItemService taskService)
+        {
+            var task = await taskService.GetByIdAsync(taskId);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            var tagToRemove = task.Tags.FirstOrDefault(t => t.Id == tagId);
+            if (tagToRemove != null)
+            {
+                task.Tags.Remove(tagToRemove);
+                await taskService.UpdateAsync(task);
+            }
+            return Ok(task);
+        }
     }
 }

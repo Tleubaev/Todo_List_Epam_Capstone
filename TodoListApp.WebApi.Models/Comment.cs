@@ -2,9 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TodoListApp.WebApi.Models
 {
-    /// <summary>
-    /// Модель комментария к задаче.
-    /// </summary>
     public class Comment
     {
         public Guid Id { get; set; }

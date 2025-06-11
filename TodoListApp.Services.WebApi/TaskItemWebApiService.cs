@@ -92,5 +92,16 @@ namespace TodoListApp.Services.WebApi
             url += string.Join("&", param);
             return await _httpClient.GetFromJsonAsync<IEnumerable<TaskItem>>(url);
         }
+
+        public async Task AddTagAsync(Guid taskId, Guid tagId)
+        {
+            var response = await _httpClient.PostAsync($"api/tasks/{taskId}/add-tag/{tagId}", null);
+            response.EnsureSuccessStatusCode();
+        }
+        public async Task RemoveTagAsync(Guid taskId, Guid tagId)
+        {
+            var response = await _httpClient.PostAsync($"api/tasks/{taskId}/remove-tag/{tagId}", null);
+            response.EnsureSuccessStatusCode();
+        }
     }
 }

@@ -1,0 +1,10 @@
+@model TodoListApp.WebApi.Models.Tag
+<h2>Задачи с тегом "@Model.Name"</h2>
+<ul>
+    @foreach (var task in Model.Tasks)
+    {
+        <li>
+            <a asp-controller="TaskItem" asp-action="Details" asp-route-id="@task.Id" asp-route-todoListId="@task.TodoListId">@task.Title</a>
+        </li>
+    }
+</ul>

@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using TodoListApp.Services;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.Services.Database

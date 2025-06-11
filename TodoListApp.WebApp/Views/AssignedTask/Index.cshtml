@@ -10,17 +10,17 @@
 <form method="get" class="mb-3">
     <select name="isCompleted" class="form-select" style="width: auto; display: inline;">
         <option value="">Все</option>
-        <option value="false" @(filter == false ? "selected" : "")>Активные</option>
-        <option value="true" @(filter == true ? "selected" : "")>Выполненные</option>
+        <option value="false" selected="@(filter == false)">Активные</option>
+        <option value="true" selected="@(filter == true)">Выполненные</option>
     </select>
     <select name="sortBy" class="form-select" style="width: auto; display: inline;">
         <option value="">Без сортировки</option>
-        <option value="Title" @(sortBy == "Title" ? "selected" : "")>Название</option>
-        <option value="DueDate" @(sortBy == "DueDate" ? "selected" : "")>Срок</option>
+        <option value="Title" selected="@(sortBy == "Title")">Название</option>
+        <option value="DueDate" selected="@(sortBy == "DueDate")">Срок</option>
     </select>
     <select name="ascending" class="form-select" style="width: auto; display: inline;">
-        <option value="true" @(ascending ? "selected" : "")>По возрастанию</option>
-        <option value="false" @(!ascending ? "selected" : "")>По убыванию</option>
+        <option value="true" selected="@(ascending)">По возрастанию</option>
+        <option value="false" selected="@(!ascending)">По убыванию</option>
     </select>
     <button type="submit" class="btn btn-primary">Фильтр/Сортировка</button>
 </form>

@@ -2,9 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TodoListApp.WebApi.Models
 {
-    /// <summary>
-    /// Модель задачи.
-    /// </summary>
     public class TaskItem
     {
         public Guid Id { get; set; }

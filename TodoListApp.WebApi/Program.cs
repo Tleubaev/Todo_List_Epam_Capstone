@@ -11,8 +11,11 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddDbContext<TodoDbContext>(options =>
 //    options.UseInMemoryDatabase("TodoListDb"));
 
+// DI
 builder.Services.AddScoped<ITodoListService, TodoListDatabaseService>();
 builder.Services.AddScoped<ITaskItemService, TaskItemDatabaseService>();
+builder.Services.AddScoped<ITagService, TagDatabaseService>();
+builder.Services.AddScoped<ICommentService, CommentDatabaseService>();
 
 builder.Services.AddDbContext<TodoDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

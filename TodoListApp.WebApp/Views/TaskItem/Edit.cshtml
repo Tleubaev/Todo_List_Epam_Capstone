@@ -31,3 +31,28 @@
     <button type="submit" class="btn btn-success">Сохранить</button>
     <a asp-action="Index" asp-route-todoListId="@todoListId" class="btn btn-secondary">Назад</a>
 </form>
+<h4>Теги</h4>
+@if (Model.Tags != null)
+{
+    foreach (var tag in Model.Tags)
+    {
+        <span class="badge bg-secondary">
+            @tag.Name
+            <form asp-action="RemoveTag" method="post" style="display:inline">
+                <input type="hidden" name="taskId" value="@Model.Id" />
+                <input type="hidden" name="tagId" value="@tag.Id" />
+                <button class="btn btn-link btn-sm" type="submit" title="Удалить тег">&times;</button>
+            </form>
+        </span>
+    }
+}
+<form asp-action="AddTag" method="post" class="mt-2">
+    <input type="hidden" name="taskId" value="@Model.Id" />
+    <select name="tagId" class="form-select" style="width:auto;display:inline;">
+        @foreach (var tag in ViewBag.AllTags as List<TodoListApp.WebApi.Models.Tag>)
+        {
+            <option value="@tag.Id">@tag.Name</option>
+        }
+    </select>
+    <button type="submit" class="btn btn-primary btn-sm">Добавить тег</button>
+</form>

@@ -1,0 +1,18 @@
+@model TodoListApp.WebApi.Models.Comment
+@{
+    var taskItemId = ViewBag.TaskItemId;
+    var todoListId = ViewBag.TodoListId;
+}
+
+<h2>Редактировать комментарий</h2>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" name="taskItemId" value="@taskItemId" />
+    <input type="hidden" name="todoListId" value="@todoListId" />
+    <div class="form-group">
+        <textarea asp-for="Content" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Сохранить</button>
+    <a asp-action="Details" asp-controller="TaskItem" asp-route-id="@taskItemId" asp-route-todoListId="@todoListId" class="btn btn-secondary">Назад</a>
+</form>

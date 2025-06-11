@@ -9,11 +9,17 @@ namespace TodoListApp.WebApp.Controllers
     public class TaskItemController : Controller
     {
         private readonly ITaskItemService _taskItemService;
+        private readonly ITagService _tagService;
         private readonly Guid _currentUserId;
 
-        public TaskItemController(ITaskItemService taskItemService, IHttpContextAccessor accessor)
+        public TaskItemController(
+            ITaskItemService taskItemService,
+            IHttpContextAccessor accessor,
+            ITagService tagService
+        )
         {
             _taskItemService = taskItemService;
+            _tagService = tagService;
             _currentUserId = Guid.Parse(accessor.HttpContext!.User.FindFirst("sub")!.Value);
         }
 
@@ -64,6 +70,7 @@ namespace TodoListApp.WebApp.Controllers
                 return NotFound();
             }
             ViewBag.TodoListId = todoListId;
+            ViewBag.AllTags = await _tagService.GetAllAsync();
             return View(task);
         }
 
@@ -95,6 +102,19 @@ namespace TodoListApp.WebApp.Controllers
         {
             await _taskItemService.DeleteAsync(id);
             return RedirectToAction("Index", new { todoListId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddTag(Guid taskId, Guid tagId, Guid todoListId)
+        {
+            await _taskItemService.AddTagAsync(taskId, tagId);
+            return RedirectToAction("Edit", new { id = taskId, todoListId });
+        }
+        [HttpPost]
+        public async Task<IActionResult> RemoveTag(Guid taskId, Guid tagId, Guid todoListId)
+        {
+            await _taskItemService.RemoveTagAsync(taskId, tagId);
+            return RedirectToAction("Edit", new { id = taskId, todoListId });
         }
     }
 }

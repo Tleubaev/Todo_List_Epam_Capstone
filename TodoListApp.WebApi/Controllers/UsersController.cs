@@ -18,7 +18,6 @@ namespace TodoListApp.WebApi.Controllers
             _logger = logger;
         }
 
-        // Registration endpoint
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserDto dto)
         {
@@ -42,7 +41,6 @@ namespace TodoListApp.WebApi.Controllers
             return Ok(new User { Id = user.Id, UserName = user.UserName, Role = user.Role });
         }
 
-        // Login endpoint
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDto dto)
         {

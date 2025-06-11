@@ -1,3 +1,4 @@
+@using System.Security.Claims
 @model TodoListApp.WebApi.Models.TaskItem
 @{
     var todoListId = ViewBag.TodoListId;
@@ -19,3 +20,63 @@
     <a asp-action="Delete" asp-route-id="@Model.Id" asp-route-todoListId="@todoListId" class="btn btn-danger">Удалить</a>
     <a asp-action="Index" asp-route-todoListId="@todoListId" class="btn btn-secondary">К списку задач</a>
 </div>
+<h2>Детали задачи</h2>
+<dt class="col-sm-2">Теги</dt>
+<dd class="col-sm-10">
+    @if (Model.Tags != null && Model.Tags.Any())
+    {
+        foreach (var tag in Model.Tags)
+        {
+            <span class="badge bg-secondary">@tag.Name</span>
+        }
+    }
+    else
+    {
+        <span>Нет тегов</span>
+    }
+</dd>
+<h3>Комментарии</h3>
+@{
+    var comments = Model.Comments ?? new List<TodoListApp.WebApi.Models.Comment>();
+}
+@if (comments.Any())
+{
+    <ul class="list-group mb-3">
+        @foreach (var c in comments.OrderByDescending(x => x.CreatedAt))
+        {
+            var userIdClaim = User.FindFirstValue("sub");
+            var isOwner = false;
+            if (Guid.TryParse(userIdClaim, out var currentUserId) && c.UserId.HasValue)
+            {
+                isOwner = c.UserId.Value == currentUserId;
+            }
+            <li class="list-group-item">
+                <b>@c.User?.UserName ?? "Пользователь"</b>
+                <span class="text-muted">(@c.CreatedAt.ToShortDateString())</span>
+                <br />
+                @c.Content
+                @if (isOwner)
+                {
+                    <form asp-controller="Comment" asp-action="Delete" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@c.Id" />
+                        <input type="hidden" name="taskItemId" value="@Model.Id" />
+                        <input type="hidden" name="todoListId" value="@ViewBag.TodoListId" />
+                        <button type="submit" class="btn btn-link btn-sm text-danger">Удалить</button>
+                    </form>
+                    <a asp-controller="Comment" asp-action="Edit" asp-route-id="@c.Id" asp-route-taskItemId="@Model.Id" asp-route-todoListId="@ViewBag.TodoListId" class="btn btn-link btn-sm">Редактировать</a>
+                }
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Комментариев нет.</p>
+}
+<h4>Добавить комментарий</h4>
+<form asp-controller="Comment" asp-action="Create" method="post">
+    <input type="hidden" name="taskItemId" value="@Model.Id" />
+    <input type="hidden" name="todoListId" value="@ViewBag.TodoListId" />
+    <textarea name="content" class="form-control mb-2" required maxlength="500"></textarea>
+    <button type="submit" class="btn btn-primary">Добавить</button>
+</form>

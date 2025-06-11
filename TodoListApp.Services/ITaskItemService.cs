@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.Services;
@@ -15,4 +10,7 @@ public interface ITaskItemService
     Task DeleteAsync(Guid id);
     Task<IEnumerable<TaskItem>> GetAssignedToUserAsync(Guid userId, bool? isCompleted = null, string? sortBy = null, bool ascending = true);
     Task<IEnumerable<TaskItem>> SearchAsync(string? title, DateTime? createdFrom, DateTime? createdTo, DateTime? dueFrom, DateTime? dueTo);
+
+    Task AddTagAsync(Guid taskId, Guid tagId);
+    Task RemoveTagAsync(Guid taskId, Guid tagId);
 }

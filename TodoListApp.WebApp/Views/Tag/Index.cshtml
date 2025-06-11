@@ -1,0 +1,10 @@
+@model IEnumerable<TodoListApp.WebApi.Models.Tag>
+<h2>Все теги</h2>
+<ul>
+    @foreach (var tag in Model)
+    {
+        <li>
+            <a asp-action="Tasks" asp-route-id="@tag.Id">@tag.Name</a>
+        </li>
+    }
+</ul>
