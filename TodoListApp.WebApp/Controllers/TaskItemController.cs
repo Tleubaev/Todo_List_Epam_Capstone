@@ -79,6 +79,11 @@ namespace TodoListApp.WebApp.Controllers
         {
             if (ModelState.IsValid && model.TodoListId == todoListId)
             {
+                if (model.AssignedUserId == Guid.Empty)
+                {
+                    model.AssignedUserId = _currentUserId;
+                }
+
                 await _taskItemService.UpdateAsync(model);
                 return RedirectToAction("Index", new { todoListId });
             }

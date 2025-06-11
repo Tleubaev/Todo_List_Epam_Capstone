@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TodoListApp.Services;
+using TodoListApp.WebApi.DTO;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.WebApi.Controllers
@@ -16,39 +17,47 @@ namespace TodoListApp.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Tag>>> GetAll()
+        public async Task<ActionResult<IEnumerable<TagDto>>> GetAll()
         {
             var tags = await _tagService.GetAllAsync();
-            return Ok(tags);
+            var dtos = tags.Select(t => new TagDto
+            {
+                Id = t.Id,
+                Name = t.Name
+            });
+            return Ok(dtos);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Tag>> GetById(Guid id)
+        public async Task<ActionResult<TagDto>> GetById(Guid id)
         {
             var tag = await _tagService.GetByIdAsync(id);
             if (tag == null)
             {
                 return NotFound();
             }
-            return Ok(tag);
+            var dto = new TagDto { Id = tag.Id, Name = tag.Name };
+            return Ok(dto);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Tag>> Create(Tag model)
+        public async Task<ActionResult<TagDto>> Create(Tag model)
         {
             var created = await _tagService.CreateAsync(model);
-            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+            var dto = new TagDto { Id = created.Id, Name = created.Name };
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, dto);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Tag>> Update(Guid id, Tag model)
+        public async Task<ActionResult<TagDto>> Update(Guid id, Tag model)
         {
             if (id != model.Id)
             {
                 return BadRequest();
             }
             var updated = await _tagService.UpdateAsync(model);
-            return Ok(updated);
+            var dto = new TagDto { Id = updated.Id, Name = updated.Name };
+            return Ok(dto);
         }
 
         [HttpDelete("{id}")]
@@ -59,7 +68,7 @@ namespace TodoListApp.WebApi.Controllers
         }
 
         [HttpGet("{id}/tasks")]
-        public async Task<ActionResult<IEnumerable<TaskItem>>> GetTasksByTag(Guid id)
+        public async Task<ActionResult<IEnumerable<TaskItemDto>>> GetTasksByTag(Guid id)
         {
             var tag = await _tagService.GetByIdAsync(id);
             if (tag == null)
@@ -67,7 +76,7 @@ namespace TodoListApp.WebApi.Controllers
                 return NotFound();
             }
 
-            return Ok(tag.Tasks);
+            return Ok(tag.Tasks.Select(TaskItemDto.FromEntity));
         }
     }
 }

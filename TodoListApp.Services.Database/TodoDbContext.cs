@@ -6,7 +6,6 @@ namespace TodoListApp.Services.Database
     public class TodoDbContext : DbContext
     {
         public TodoDbContext(DbContextOptions<TodoDbContext> options) : base(options) { }
-
         public DbSet<User> Users { get; set; }
         public DbSet<TodoList> TodoLists { get; set; }
         public DbSet<TaskItem> TaskItems { get; set; }

@@ -13,7 +13,6 @@ builder.Services.AddAuthentication("Cookies")
 
 builder.Services.AddHttpContextAccessor();
 
-// DI
 builder.Services.AddHttpClient("WebApi", client =>
 {
     client.BaseAddress = new Uri("https://localhost:7244/");

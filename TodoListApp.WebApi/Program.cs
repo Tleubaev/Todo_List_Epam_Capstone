@@ -8,9 +8,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddDbContext<TodoDbContext>(options =>
-//    options.UseInMemoryDatabase("TodoListDb"));
-
 // DI
 builder.Services.AddScoped<ITodoListService, TodoListDatabaseService>();
 builder.Services.AddScoped<ITaskItemService, TaskItemDatabaseService>();
@@ -18,6 +15,8 @@ builder.Services.AddScoped<ITagService, TagDatabaseService>();
 builder.Services.AddScoped<ICommentService, CommentDatabaseService>();
 
 builder.Services.AddDbContext<TodoDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<UsersDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();

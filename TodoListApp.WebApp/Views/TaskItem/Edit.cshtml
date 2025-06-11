@@ -8,6 +8,7 @@
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="TodoListId" />
     <input type="hidden" name="todoListId" value="@todoListId" />
+    <input type="hidden" asp-for="AssignedUserId" />
     <div class="form-group">
         <label asp-for="Title"></label>
         <input asp-for="Title" class="form-control" />
@@ -41,6 +42,7 @@
             <form asp-action="RemoveTag" method="post" style="display:inline">
                 <input type="hidden" name="taskId" value="@Model.Id" />
                 <input type="hidden" name="tagId" value="@tag.Id" />
+                <input type="hidden" name="todoListId" value="@ViewBag.TodoListId" />
                 <button class="btn btn-link btn-sm" type="submit" title="Удалить тег">&times;</button>
             </form>
         </span>
@@ -48,6 +50,7 @@
 }
 <form asp-action="AddTag" method="post" class="mt-2">
     <input type="hidden" name="taskId" value="@Model.Id" />
+    <input type="hidden" name="todoListId" value="@ViewBag.TodoListId" />
     <select name="tagId" class="form-select" style="width:auto;display:inline;">
         @foreach (var tag in ViewBag.AllTags as List<TodoListApp.WebApi.Models.Tag>)
         {

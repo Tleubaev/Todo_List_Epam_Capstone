@@ -1,6 +1,4 @@
-using System.Net.Http;
 using System.Net.Http.Json;
-using TodoListApp.Services;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.Services.WebApi
@@ -23,7 +21,7 @@ namespace TodoListApp.Services.WebApi
         {
             var response = await _httpClient.PostAsJsonAsync("api/comments", comment);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<Comment>();
+            return await response.Content.ReadFromJsonAsync<Comment>()!;
         }
 
         public async Task<Comment> UpdateAsync(Comment comment)

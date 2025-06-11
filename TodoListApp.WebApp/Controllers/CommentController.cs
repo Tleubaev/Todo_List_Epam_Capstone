@@ -29,6 +29,7 @@ namespace TodoListApp.WebApp.Controllers
                 UserId = _currentUserId,
                 CreatedAt = DateTime.UtcNow
             };
+
             await _commentService.CreateAsync(comment);
             return RedirectToAction("Details", "TaskItem", new { id = taskItemId, todoListId });
         }
@@ -56,7 +57,6 @@ namespace TodoListApp.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Comment model, Guid taskItemId, Guid todoListId)
         {
-            // Можно добавить проверку принадлежности
             model.UserId = _currentUserId;
             await _commentService.UpdateAsync(model);
             return RedirectToAction("Details", "TaskItem", new { id = taskItemId, todoListId });

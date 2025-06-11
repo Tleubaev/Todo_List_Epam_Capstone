@@ -1,6 +1,4 @@
-using System.Net.Http;
 using System.Net.Http.Json;
-using TodoListApp.Services;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.Services.WebApi
@@ -14,24 +12,26 @@ namespace TodoListApp.Services.WebApi
             _httpClient = httpClient;
         }
 
-        public async Task<TaskItem?> GetByIdAsync(Guid id) =>
-            await _httpClient.GetFromJsonAsync<TaskItem>($"api/tasks/{id}");
+        public async Task<TaskItem?> GetByIdAsync(Guid id)
+            => await _httpClient.GetFromJsonAsync<TaskItem>($"api/tasks/{id}");
 
-        public async Task<IEnumerable<TaskItem>> GetByTodoListIdAsync(Guid todoListId) =>
-            await _httpClient.GetFromJsonAsync<IEnumerable<TaskItem>>($"api/tasks/todolist/{todoListId}");
+        public async Task<IEnumerable<TaskItem>> GetByTodoListIdAsync(Guid todoListId)
+            => await _httpClient.GetFromJsonAsync<IEnumerable<TaskItem>>($"api/tasks/todolist/{todoListId}");
 
         public async Task<TaskItem> CreateAsync(TaskItem task)
         {
             var response = await _httpClient.PostAsJsonAsync("api/tasks", task);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<TaskItem>();
+            var dto = await response.Content.ReadFromJsonAsync<TaskItemDto>();
+            return MapFromDto(dto!);
         }
 
         public async Task<TaskItem> UpdateAsync(TaskItem task)
         {
             var response = await _httpClient.PutAsJsonAsync($"api/tasks/{task.Id}", task);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<TaskItem>();
+            var dto = await response.Content.ReadFromJsonAsync<TaskItemDto>();
+            return MapFromDto(dto!);
         }
 
         public async Task DeleteAsync(Guid id)
@@ -102,6 +102,28 @@ namespace TodoListApp.Services.WebApi
         {
             var response = await _httpClient.PostAsync($"api/tasks/{taskId}/remove-tag/{tagId}", null);
             response.EnsureSuccessStatusCode();
+        }
+
+        private TaskItem MapFromDto(TaskItemDto dto)
+        {
+            return new TaskItem
+            {
+                Id = dto.Id,
+                Title = dto.Title,
+                Description = dto.Description,
+                TodoListId = dto.TodoListId,
+                IsCompleted = dto.IsCompleted,
+                CreatedAt = dto.CreatedAt,
+                DueDate = dto.DueDate,
+                Tags = dto.Tags?.Select(t => new Tag { Id = t.Id, Name = t.Name }).ToList(),
+                Comments = dto.Comments?.Select(c => new Comment
+                {
+                    Id = c.Id,
+                    Content = c.Content,
+                    CreatedAt = c.CreatedAt,
+                    UserId = c.UserId,
+                }).ToList()
+            };
         }
     }
 }

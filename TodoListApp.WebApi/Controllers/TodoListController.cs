@@ -12,20 +12,27 @@ namespace TodoListApp.WebApi.Controllers
 
         public TodoListController(ITodoListService service)
         {
-            _service = service;
+            this._service = service;
         }
 
         // GET: api/todolists/user/{userId}
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<TodoList>>> GetTodoListsByUser(Guid userId)
+        public async Task<ActionResult<IEnumerable<TodoListDto>>> GetTodoListsByUser(Guid userId)
         {
-            var lists = await _service.GetByUserIdAsync(userId);
-            return Ok(lists);
+            var lists = await this._service.GetByUserIdAsync(userId);
+            return this.Ok(lists.Select(list => new TodoListDto
+            {
+                Id = list.Id,
+                Title = list.Title,
+                Description = list.Description,
+                UserId = list.UserId,
+                Tasks = list.Tasks?.Select(TaskItemDto.FromEntity).ToList()
+            }));
         }
 
         // GET: api/todolists/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<TodoList>> GetById(Guid id)
+        public async Task<ActionResult<TodoListDto>> GetById(Guid id)
         {
             var list = await _service.GetByIdAsync(id);
             if (list == null)

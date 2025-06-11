@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using TodoListApp.Services;
-using TodoListApp.WebApi.DTO;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.WebApi.Controllers
@@ -21,64 +20,24 @@ namespace TodoListApp.WebApi.Controllers
         public async Task<ActionResult<IEnumerable<TaskItemDto>>> GetTasksByTodoListId(Guid todoListId)
         {
             var tasks = await _service.GetByTodoListIdAsync(todoListId);
-
-            var dtos = tasks.Select(task => new TaskItemDto
-            {
-                Id = task.Id,
-                Title = task.Title,
-                Description = task.Description,
-                TodoListId = task.TodoListId,
-                IsCompleted = task.IsCompleted,
-                CreatedAt = task.CreatedAt,
-                DueDate = task.DueDate,
-                Tags = task.Tags?.Select(t => new TagDto { Id = t.Id, Name = t.Name }).ToList(),
-                Comments = task.Comments?.Select(c => new CommentDto
-                {
-                    Id = c.Id,
-                    Content = c.Content,
-                    UserId = c.UserId,
-                    UserName = c.User?.UserName,
-                    CreatedAt = c.CreatedAt
-                }).ToList()
-            });
-
-            return Ok(dtos);
+            return Ok(tasks.Select(TaskItemDto.FromEntity));
         }
 
         // GET: api/tasks/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<TaskItem>> GetById(Guid id)
+        public async Task<ActionResult<TaskItemDto>> GetById(Guid id)
         {
             var task = await _service.GetByIdAsync(id);
             if (task == null)
             {
                 return NotFound();
             }
-
-            var dto = new TaskItemDto
-            {
-                Id = task.Id,
-                Title = task.Title,
-                Description = task.Description,
-                TodoListId = task.TodoListId,
-                IsCompleted = task.IsCompleted,
-                CreatedAt = task.CreatedAt,
-                DueDate = task.DueDate,
-                Comments = task.Comments?.Select(c => new CommentDto
-                {
-                    Id = c.Id,
-                    Content = c.Content,
-                    UserId = c.UserId,
-                    UserName = c.User?.UserName,
-                    CreatedAt = c.CreatedAt
-                }).ToList()
-            };
-            return Ok(dto);
+            return Ok(TaskItemDto.FromEntity(task));
         }
 
         // POST: api/tasks
         [HttpPost]
-        public async Task<ActionResult<TaskItem>> Create([FromBody] TaskItem model)
+        public async Task<ActionResult<TaskItemDto>> Create([FromBody] TaskItem model)
         {
             if (model.DueDate.HasValue && model.DueDate.Value.Kind == DateTimeKind.Unspecified)
             {
@@ -91,7 +50,7 @@ namespace TodoListApp.WebApi.Controllers
             }
 
             var created = await _service.CreateAsync(model);
-            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, TaskItemDto.FromEntity(created));
         }
 
         // PUT: api/tasks/{id}
@@ -114,7 +73,8 @@ namespace TodoListApp.WebApi.Controllers
             }
 
             var updated = await _service.UpdateAsync(model);
-            return Ok(updated);
+            var dto = TaskItemDto.FromEntity(updated);
+            return Ok(dto);
         }
 
         // DELETE: api/tasks/{id}
@@ -127,16 +87,16 @@ namespace TodoListApp.WebApi.Controllers
 
         // GET: api/tasks/assigned/{userId}
         [HttpGet("assigned/{userId}")]
-        public async Task<ActionResult<IEnumerable<TaskItem>>> GetAssignedToUser(
+        public async Task<ActionResult<IEnumerable<TaskItemDto>>> GetAssignedToUser(
             Guid userId, [FromQuery] bool? isCompleted = null, [FromQuery] string? sortBy = null, [FromQuery] bool ascending = true)
         {
             var tasks = await _service.GetAssignedToUserAsync(userId, isCompleted, sortBy, ascending);
-            return Ok(tasks);
+            return Ok(tasks.Select(TaskItemDto.FromEntity));
         }
 
+        // GET: api/tasks/search
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<TaskItem>>> Search
-        (
+        public async Task<ActionResult<IEnumerable<TaskItemDto>>> Search(
             [FromQuery] string? title,
             [FromQuery] DateTime? createdFrom,
             [FromQuery] DateTime? createdTo,
@@ -145,7 +105,7 @@ namespace TodoListApp.WebApi.Controllers
         )
         {
             var tasks = await _service.SearchAsync(title, createdFrom, createdTo, dueFrom, dueTo);
-            return Ok(tasks);
+            return Ok(tasks.Select(TaskItemDto.FromEntity));
         }
 
         [HttpPost("{taskId}/add-tag/{tagId}")]

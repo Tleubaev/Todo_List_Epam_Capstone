@@ -6,11 +6,16 @@
 
 <h2>Поиск задач</h2>
 <form method="get" class="mb-3">
-    <input type="text" name="title" value="@ViewBag.Title" placeholder="Название" class="form-control" style="width:200px;display:inline;" />
+    <input type="text" name="title" value="" placeholder="Название" class="form-control" style="width:200px;display:inline;" />
+
+<label>Дата создания</label>
     <input type="date" name="createdFrom" value="@(ViewBag.CreatedFrom?.ToString("yyyy-MM-dd"))" class="form-control" style="width:180px;display:inline;" placeholder="Создано с" />
     <input type="date" name="createdTo" value="@(ViewBag.CreatedTo?.ToString("yyyy-MM-dd"))" class="form-control" style="width:180px;display:inline;" placeholder="Создано по" />
+
+    <label>Дата срока выполнения</label>
     <input type="date" name="dueFrom" value="@(ViewBag.DueFrom?.ToString("yyyy-MM-dd"))" class="form-control" style="width:180px;display:inline;" placeholder="Срок с" />
     <input type="date" name="dueTo" value="@(ViewBag.DueTo?.ToString("yyyy-MM-dd"))" class="form-control" style="width:180px;display:inline;" placeholder="Срок по" />
+
     <button type="submit" class="btn btn-primary">Найти</button>
 </form>
 @if (!Model.Any())
