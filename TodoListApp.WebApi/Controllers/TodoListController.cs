@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TodoListApp.Services;
+using TodoListApp.WebApi.DTO;
 using TodoListApp.WebApi.Models;
-
 namespace TodoListApp.WebApi.Controllers
 {
     [Route("api/todolists")]
@@ -33,7 +33,16 @@ namespace TodoListApp.WebApi.Controllers
                 return NotFound();
             }
 
-            return Ok(list);
+            var dto = new TodoListDto
+            {
+                Id = list.Id,
+                Title = list.Title,
+                Description = list.Description,
+                UserId = list.UserId,
+                Tasks = list.Tasks?.Select(TaskItemDto.FromEntity).ToList()
+            };
+
+            return Ok(dto);
         }
 
         // POST: api/todolists

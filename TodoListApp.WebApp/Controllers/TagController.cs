@@ -31,5 +31,23 @@ namespace TodoListApp.WebApp.Controllers
             }
             return View(tag);
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(TodoListApp.WebApi.Models.Tag model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await _tagService.CreateAsync(model);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

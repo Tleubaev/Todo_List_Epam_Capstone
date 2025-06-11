@@ -8,8 +8,8 @@
         <dt class="col-sm-2">Описание</dt>
         <dd class="col-sm-10">@Model.Description</dd>
     </dl>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Редактировать</a>
+@*     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Редактировать</a>
     <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Удалить</a>
+    <a asp-controller="TaskItem" asp-action="Index" asp-route-todoListId="@Model.Id" class="btn btn-success">Задачи</a> *@
     <a asp-action="Index" class="btn btn-secondary">Назад</a>
-    <a asp-controller="TaskItem" asp-action="Index" asp-route-todoListId="@Model.Id" class="btn btn-success">Задачи</a>
 </div>

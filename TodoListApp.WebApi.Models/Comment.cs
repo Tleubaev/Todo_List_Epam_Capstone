@@ -15,8 +15,7 @@ namespace TodoListApp.WebApi.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        // Навигационные свойства
-        public TaskItem TaskItem { get; set; } = default!;
+        public TaskItem? TaskItem { get; set; }
         public Guid? UserId { get; set; }
         public User? User { get; set; }
     }

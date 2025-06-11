@@ -1,4 +1,5 @@
 @model IEnumerable<TodoListApp.WebApi.Models.Tag>
+<a asp-action="Create" class="btn btn-primary mb-3">Добавить новый тег</a>
 <h2>Все теги</h2>
 <ul>
     @foreach (var tag in Model)

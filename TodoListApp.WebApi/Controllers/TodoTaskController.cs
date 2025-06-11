@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TodoListApp.Services;
+using TodoListApp.WebApi.DTO;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.WebApi.Controllers
@@ -17,10 +18,31 @@ namespace TodoListApp.WebApi.Controllers
 
         // GET: api/tasks/todolist/{todoListId}
         [HttpGet("todolist/{todoListId}")]
-        public async Task<ActionResult<IEnumerable<TaskItem>>> GetTasksByTodoListId(Guid todoListId)
+        public async Task<ActionResult<IEnumerable<TaskItemDto>>> GetTasksByTodoListId(Guid todoListId)
         {
             var tasks = await _service.GetByTodoListIdAsync(todoListId);
-            return Ok(tasks);
+
+            var dtos = tasks.Select(task => new TaskItemDto
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                TodoListId = task.TodoListId,
+                IsCompleted = task.IsCompleted,
+                CreatedAt = task.CreatedAt,
+                DueDate = task.DueDate,
+                Tags = task.Tags?.Select(t => new TagDto { Id = t.Id, Name = t.Name }).ToList(),
+                Comments = task.Comments?.Select(c => new CommentDto
+                {
+                    Id = c.Id,
+                    Content = c.Content,
+                    UserId = c.UserId,
+                    UserName = c.User?.UserName,
+                    CreatedAt = c.CreatedAt
+                }).ToList()
+            });
+
+            return Ok(dtos);
         }
 
         // GET: api/tasks/{id}
@@ -32,7 +54,26 @@ namespace TodoListApp.WebApi.Controllers
             {
                 return NotFound();
             }
-            return Ok(task);
+
+            var dto = new TaskItemDto
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                TodoListId = task.TodoListId,
+                IsCompleted = task.IsCompleted,
+                CreatedAt = task.CreatedAt,
+                DueDate = task.DueDate,
+                Comments = task.Comments?.Select(c => new CommentDto
+                {
+                    Id = c.Id,
+                    Content = c.Content,
+                    UserId = c.UserId,
+                    UserName = c.User?.UserName,
+                    CreatedAt = c.CreatedAt
+                }).ToList()
+            };
+            return Ok(dto);
         }
 
         // POST: api/tasks
@@ -122,7 +163,7 @@ namespace TodoListApp.WebApi.Controllers
                 task.Tags.Add(tag);
                 await taskService.UpdateAsync(task);
             }
-            return Ok(task);
+            return Ok();
         }
 
         [HttpPost("{taskId}/remove-tag/{tagId}")]
@@ -140,7 +181,7 @@ namespace TodoListApp.WebApi.Controllers
                 task.Tags.Remove(tagToRemove);
                 await taskService.UpdateAsync(task);
             }
-            return Ok(task);
+            return Ok();
         }
     }
 }

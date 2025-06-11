@@ -32,6 +32,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Search" asp-action="Index">Поиск</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Tag" asp-action="Index">Теги</a>
+                        </li>
                     </ul>
                 </div>
                 @if (User.Identity.IsAuthenticated)
@@ -56,7 +59,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - TodoListApp.WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - Tleubayev Oralbek - TodoListApp.WebApp - <a href="https://www.linkedin.com/in/oralbek-tleubayev/" target="_blank">Linked</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
